@@ -1,0 +1,108 @@
+{extend name="public" /}
+{block name="content"}
+<form class="layui-form" method="post" action="{:url('admin/funds/editFunds')}" >
+    <div class="layui-form-item">
+
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">
+                <span class="x-red">*</span>住户姓名
+            </label>
+            <div class="layui-input-inline">
+                <input type="hidden" name="hideid" value="{$hideid}">
+                <input type="text" id="L_username" name="username" required readonly
+                       autocomplete="off" value="{$oldData['hostuser']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_createtime" class="layui-form-label">
+                <span class="x-red">*</span>物业地址
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_address" name="address" required
+                       autocomplete="off" value="{$oldData['address']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_year" class="layui-form-label">
+                年份
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_year" name="year" required
+                       autocomplete="off" value="{$oldData['year']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_month" class="layui-form-label">
+                <span class="x-red">*</span>月份
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_month" name="month" required
+                       autocomplete="off" value="{$oldData['month']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_item" class="layui-form-label">
+                <span class="x-red">*</span>收费项目
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_item" name="item" required
+                       autocomplete="off" value="{$oldData['takingitem']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_salary" class="layui-form-label">
+                <span class="x-red">*</span>应收金额
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_salary" name="salary" required
+                       autocomplete="off" value="{$oldData['deservemoney']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+
+            <label for="L_feetime" class="layui-form-label">
+                <span class="x-red">*</span>交费日期
+            </label>
+
+            <div class="layui-inline">
+                <div class="layui-input-inline xbs768">
+                    <input class="layui-input" name="feetime" value="{$oldData['fundtime']}" placeholder="" id="LAY_demorange_s">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_create" class="layui-form-label">
+                <span class="x-red">*</span>已交金额
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_yijiao" name="yijiao" required
+                       autocomplete="off" value="{$oldData['hasmoney']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_create" class="layui-form-label">
+                <span class="x-red">*</span>欠费金额
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_qianfei" name="qianfei" required
+                       autocomplete="off" value="{$oldData['hasnotmoney']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_sign" class="layui-form-label">
+            </label>
+            <button class="layui-btn" key="set-mine" lay-filter="save" lay-submit>
+                登记
+            </button>
+        </div>
+</form>
+{/block}

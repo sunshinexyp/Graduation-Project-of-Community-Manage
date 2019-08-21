@@ -1,0 +1,169 @@
+{extend name="basetemplate" /}
+{block name="right"}
+    <!-- 右侧内容框架，更改从这里开始 -->
+
+    <xblock><button class="layui-btn" onclick="member_add('添加公告','{:url(\'admin/notice/add\')}','800','500')"><i class="layui-icon">&#xe608;</i>发布公告</button><span class="x-right" style="line-height:40px">共有数据：{$listNum}条</span></xblock>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                发布人
+            </th>
+            <th>
+                公告标题
+            </th>
+            <th style="width: 250px;">
+                公告内容
+            </th>
+            <th>
+                发布时间
+            </th>
+            <th>
+                过期时间
+            </th>
+
+            <th>
+                状态
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="notices" id="vo"}
+        <tr>
+            <td>
+                {$vo['id']}
+            </td>
+            <td>
+                <u style="cursor:pointer">
+                    {$vo['publisher']}
+                </u>
+            </td>
+            <td >
+                {$vo['title']|subtext=5}
+            </td>
+            <td style="width: 250px;">
+                {$vo['content']|subtext=52}
+            </td>
+            <td >
+                {$vo['create_time']}
+            </td>
+            <td >
+                {$vo['expire_time']}
+            </td>
+
+            <td class="td-status">
+                {if condition="$vo['status'] eq 1"}
+                            <span class="layui-btn layui-btn-normal layui-btn-mini">
+                                已启用
+                            </span>
+                {else/}
+                <span class="layui-btn layui-btn-disabled layui-btn-mini">已停用</span>
+                {/if}
+
+            </td>
+            <td class="td-manage">
+                {if condition="$vo['status'] eq 1"}
+                <a style="text-decoration:none" onclick="member_stop(this,'{$vo[\'id\']}')" href="javascript:;" title="停用">
+                    <i class="layui-icon">&#xe601;</i>
+                </a>
+                {else/}
+                <a style="text-decoration:none" onClick="member_start(this,'{$vo[\'id\']}')" href="javascript:;" title="启用">
+                    <i class="layui-icon">&#xe62f;</i>
+                </a>
+                {/if}
+                <a title="删除" href="javascript:;" onclick="member_del(this,'{$vo[\'id\']}')"
+                   style="text-decoration:none">
+                    <i class="layui-icon">&#xe640;</i>
+                </a>
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+<div id="page" style="margin-left: 300px;">{$notices->render()}</div>
+    <!-- 右侧内容框架，更改从这里结束 -->
+{/block}
+{block name="script"}
+<script>
+
+    /*用户-停用*/
+    function member_stop(obj,id){
+        layer.confirm('确认要停用吗？',function(index){
+            //发异步把用户状态进行更改
+            $.ajax({
+                type:'post',
+                url:'{:url(\'admin/notice/stopNotice\')}',
+                data:{'id':id},
+                success:function(data){
+                    if(data.error ==0){
+                        $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="layui-icon">&#xe62f;</i></a>');
+                        $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-disabled layui-btn-mini">已停用</span>');
+                        $(obj).remove();
+                        layer.msg(data.msg,{icon: 5,time:1000});
+                    }
+
+                    layer.msg(data.msg,{icon: 6,time:1000});
+                },
+                error:function(data) {
+                    console.log(data.msg);
+                },
+            });
+
+        });
+    }
+
+    /*用户-启用*/
+    function member_start(obj,id){
+        layer.confirm('确认要启用吗？',function(index){
+            //发异步把用户状态进行更改
+            $.ajax({
+                type:'post',
+                url:'{:url(\'admin/notice/startNotice\')}',
+                data:{'id':id},
+                success:function(data){
+                    if(data.error == 0){
+                        $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="layui-icon">&#xe601;</i></a>');
+                        $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>');
+                        $(obj).remove();
+                        layer.msg(data.msg,{icon: 6,time:1000});
+                    }else{
+                        layer.close(layer.index);
+                        layer.msg(data.msg,{icon: 5,time:2000});
+                    }
+
+                }
+                ,error:function(data) {
+                    console.log(data.msg);
+                }
+            });
+
+        });
+    }
+
+    /*用户-删除*/
+    function member_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            $.ajax({
+                type:'post',
+                url:'{:url(\'admin/notice/delete\')}',
+                data:{'id':id},
+                success:function(data){
+                    $(obj).parents("tr").remove();
+                    layer.msg(data.msg,{icon:1,time:1000});
+
+                },
+                error:function(data) {
+                    console.log(data.msg);
+                }
+            });
+        });
+    }
+
+</script>
+{/block}

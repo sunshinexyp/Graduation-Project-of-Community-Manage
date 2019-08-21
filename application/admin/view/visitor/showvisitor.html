@@ -1,0 +1,87 @@
+﻿{extend name="basetemplate" /}
+{block name="right"}
+<!-- 右侧内容框架，更改从这里开始 -->
+{if condition="$token == 0"}
+<xblock><button class="layui-btn" onclick="member_add('访客登记','{:url(\'admin/visitor/addvisitor\')}','800','500')"><i class="layui-icon">&#xe608;</i>访客登记</button></xblock>
+<table class="layui-table">
+
+    <thead>
+    <tr>
+        <th>
+            访客名字
+        </th>
+
+        <th>
+            访客性别
+        </th>
+        <th>
+            联系方式
+        </th>
+        <th>
+            被访住户名
+        </th>
+        <th >
+            来访时间
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="visitors" id="vo"}
+    <tr>
+        <td>
+            {$vo['visitor_name']}
+        </td>
+        <td >
+            {$vo['sex']}
+        </td>
+        <td >
+            {$vo['contact']}
+        </td>
+        <td>
+            {$vo['visited']}
+        </td>
+        <td >
+            {$vo['visit_time']}
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+    {else /}
+    <xblock><button class="layui-btn" onclick="member_add('车辆登记','{:url(\'admin/visitor/addCar\')}','800','500')"><i class="layui-icon">&#xe608;</i>车辆登记</button></xblock>
+    <table class="layui-table">
+    <thead>
+    <tr>
+        <th>
+            来访车辆车牌
+        </th>
+
+        <th>
+            来访时间
+        </th>
+        <th>
+            离开时间
+        </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="visitors" id="vo"}
+    <tr>
+        <td>
+            {$vo['carnumber']}
+        </td>
+        <td>
+            {$vo['visit_time']}
+        </td>
+        <td >
+            {$vo['left_time']}
+        </td>
+    </tr>
+    {/volist}
+    {/if}
+    </tbody>
+</table>
+<div id="page" style="margin-left: 300px;">{$visitors->render()}</div>
+<!-- 右侧内容框架，更改从这里结束 -->
+{/block}

@@ -1,0 +1,96 @@
+{extend name="public" /}
+{block name="content"}
+<form class="layui-form" >
+    <div class="layui-form-item">
+        <label for="L_number" class="layui-form-label">
+            <span class="x-red">*</span>设施编号
+        </label>
+        <div class="layui-input-inline">
+            <input type="hidden" name="hideid" value="{$hideid}">
+            <input type="text" id="L_number" name="number" required
+                   autocomplete="off" value="{$machine['machine_number']}" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label for="L_name" class="layui-form-label">
+            <span class="x-red">*</span>设施名称
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="L_name" name="name" required
+                   autocomplete="off" value="{$machine['machine_name']}" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label for="L_name" class="layui-form-label">
+            <span class="x-red">*</span>所属部门
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="L_dept" name="dept" required
+                   autocomplete="off" value="{$machine['dept']}" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label for="L_createtime" class="layui-form-label">
+            <span class="x-red">*</span>购入时间
+        </label>
+        <div class="layui-inline">
+            <div class="layui-input-inline xbs768">
+                <input class="layui-input" value="{$machine['purchase_time']}" name="purchase_time" placeholder="开始日" id="LAY_demorange_s">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label for="L_content" class="layui-form-label">
+            事件描述
+        </label>
+        <div class="layui-input-block">
+                        <textarea  id="L_sign" name="desc" autocomplete="off"
+                                   class="layui-textarea" style="height: 80px;">{$machine['desc']}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="L_sign" class="layui-form-label">
+        </label>
+        <button class="layui-btn" key="set-mine" lay-filter="save" lay-submit>
+            修改
+        </button>
+    </div>
+</form>
+{/block}
+{block name="specific"}
+<script>
+    layui.use(['layer','form'],function () {
+        var form = layui.form();
+        form.on('submit(save)',function (data) {
+            $.ajax({
+                type:'POST',
+                url:'{:url(\'admin/machine/editMachine\')}',
+                data:{"hideid":data.field.hideid,"number":data.field.number,"name":data.field.name,
+                    "dept":data.field.dept,"purchase_time":data.field.purchase_time,
+                    "desc":data.field.desc
+                },
+                success:function (data) {
+                    if(data.error == 0 ){
+                        layer.msg(data.msg,{icon:6,time:1000});
+                        setTimeout(function(){
+                            //当你在iframe页面关闭自身时
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+
+                        },1000);
+                    }else{
+                        layer.msg(data.msg,{icon:5,time:1000});
+                    }
+                },
+                error:function (data) {
+                    console.log(data.responseText);
+                }
+            });
+            return false;
+        });
+    })
+</script>
+{/block}

@@ -1,0 +1,125 @@
+{extend name="basetemplate" /}
+{block name="right"}
+<!-- 右侧内容框架，更改从这里开始 -->
+
+<xblock><button class="layui-btn" onclick="member_add('收费登记','{:url(\'admin/funds/addRevenue\')}','800','500')"><i class="layui-icon">&#xe608;</i>收费登记</button></xblock>
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>
+            收费编号
+        </th>
+
+        <th>
+            住户姓名
+        </th>
+        <th>
+            物业地址
+        </th>
+        <th>
+        收费项目
+         </th>
+        <th >
+            年份
+        </th>
+        <th>
+            月份
+        </th>
+
+        <th >
+            应收金额
+        </th>
+        <th>
+            缴费日期
+        </th>
+        <th>
+            已收金额
+        </th>
+        <th>
+            欠费金额
+        </th>
+        <th>
+            操作
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+{volist name="funds" id="vo"}
+    <tr>
+        <td>
+            {$vo['id']}
+        </td>
+        <td >
+            {$vo['hostuser']}
+        </td>
+        <td >
+            {$vo['address']}
+        </td>
+        <td>
+        {$vo['takingitem']}
+        </td>
+        <td >
+            {$vo['year']}
+        </td>
+        <td >
+            {$vo['month']}
+        </td>
+        <td >
+            {$vo['deservemoney']}
+        </td>
+        <td >
+            {$vo['fundtime']}
+        </td>
+        <td >
+            {$vo['hasmoney']}
+        </td>
+        <td class="td-status">
+            {$vo['hasnotmoney']}
+        </td>
+        <td class="td-manage">
+
+            <a style="text-decoration:none" onclick="member_edit('编辑','{:url(\'editFunds\')}','{$vo[\'id\']}','','510')" href="javascript:;" title="登记">
+                <i class="layui-icon">&#xe642;</i>
+            </a>
+
+            <a style="text-decoration:none" onClick="member_del(this,'{$vo[\'id\']}')" href="javascript:;" title="删除">
+                <i class="layui-icon">&#xe640;</i>
+            </a>
+        </td>
+    </tr>
+{/volist}
+    </tbody>
+</table>
+<div id="page" style="margin-left: 300px;">{$funds->render()}</div>
+<!-- 右侧内容框架，更改从这里结束 -->
+{/block}
+{block name="script"}
+<script>
+    function member_edit (title,url,id,w,h) {
+        var test = window.location.host;
+        console.log(test+url+'?id='+id);
+        url = "http://"+test+url+'?id='+id;
+        x_admin_show(title,url,w,h);
+    }
+
+    /*用户-删除*/
+    function member_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            $.ajax({
+                type:'post',
+                url:'{:url(\'admin/funds/deleteFunds\')}',
+                data:{'id':id},
+                success:function(data){
+                    $(obj).parents("tr").remove();
+                    layer.msg(data.msg,{icon:1,time:1000});
+
+                },
+                error:function(data) {
+                    console.log(data.msg);
+                }
+            });
+        });
+    }
+
+</script>
+{/block}

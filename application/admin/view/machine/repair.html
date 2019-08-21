@@ -1,0 +1,137 @@
+{extend name="basetemplate" /}
+{block name="right"}
+<!-- 右侧内容框架，更改从这里开始 -->
+
+<table class="layui-table">
+
+    <thead>
+    <tr>
+        <th>
+            序号
+        </th>
+        <th>
+            操作编号
+        </th>
+        <th>
+            设备型号
+        </th>
+        <th>
+            设备名称
+        </th>
+        <th>
+            操作日期
+        </th>
+        <th>
+            操作人员
+        </th>
+        <th>
+            操作内容
+        </th>
+
+        <th>
+            状态
+        </th>
+        <th>
+            操作
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="repairs" id="vo"}
+    <tr>
+        <td>
+            {$vo['id']}
+        </td>
+        <td>
+            <u style="cursor:pointer">
+                {$vo['reup_number']}
+            </u>
+        </td>
+        <td >
+            {$vo['machine_number']}
+        </td>
+        <td >
+            {$vo->machine->machine_name}
+        </td>
+        <td>
+            {$vo['reup_date']}
+        </td>
+        <td >
+            {$vo['person']}
+        </td>
+        <td >
+            {$vo['content']}
+        </td>
+        <td class="td-status">
+            {if condition="$vo['status'] eq 2"}
+            <span class="layui-btn layui-btn-warm layui-btn-mini">
+                                待升级
+                            </span>
+            {elseif condition="$vo['status'] eq 1"/}
+            <span class="layui-btn layui-btn-danger layui-btn-mini">
+                                待维修
+                            </span>
+            {else/}
+            <span class="layui-btn layui-btn-normal layui-btn-mini">正常</span>
+            {/if}
+
+        </td>
+        <td class="td-manage">
+            {if condition="$vo['status'] eq 1"}
+            <a style="text-decoration:none" onclick="mechine_repair('维修记载','{:url(\'addRepairMachine\')}','{$vo[\'id\']}','800','550')" href="javascript:;" title="记载">
+                <i class="layui-icon">&#xe631;</i>
+            </a>
+            {elseif condition="$vo['status'] eq  2"/}
+            <a style="text-decoration:none" onclick="mechine_upload('升级记载','{:url(\'addRepairMachine\')}','{$vo[\'id\']}','800','550')" href="javascript:;" title="记载">
+                <i class="layui-icon">&#xe62f;</i>
+            </a>
+             {else /}
+            <a title="编辑记录" href="javascript:;" onclick="mechine_upload('编辑记录','{:url(\'editRepairMsg\')}','{$vo[\'id\']}','800','550')"
+               style="text-decoration:none">
+                <i class="layui-icon">&#xe642;</i>
+            </a>
+            {/if}
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<!-- 右侧内容框架，更改从这里结束 -->
+<div id="page" style="margin-left: 300px;">{$repairs->render()}</div>
+{/block}
+{block name="script"}
+<script>
+    /*用户-删除*/
+    function member_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            $.ajax({
+                type:'post',
+                url:'{:url(\'admin/machine/deleteMachine\')}',
+                data:{'id':id},
+                success:function(data){
+                    $(obj).parents("tr").remove();
+                    layer.msg(data.msg,{icon:1,time:1000});
+
+                },
+                error:function(data) {
+                    console.log(data.msg);
+                }
+            });
+        });
+    }
+
+    function mechine_repair (title,url,id,w,h) {
+        var test = window.location.host;
+        console.log(test+url+'?id='+id);
+        url = "http://"+test+url+'?id='+id;console.log(url);
+        x_admin_show(title,url,w,h);
+    }
+    function mechine_upload (title,url,id,w,h) {
+        var test = window.location.host;
+        console.log(test+url+'?id='+id);
+        url = "http://"+test+url+'?id='+id;console.log(url);
+        x_admin_show(title,url,w,h);
+    }
+
+</script>
+{/block}

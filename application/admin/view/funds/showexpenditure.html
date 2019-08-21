@@ -1,0 +1,112 @@
+{extend name="basetemplate" /}
+{block name="right"}
+<!-- 右侧内容框架，更改从这里开始 -->
+
+<xblock><button class="layui-btn" onclick="member_add('支出登记','{:url(\'admin/funds/addExpenditure\')}','800','550')"><i class="layui-icon">&#xe608;</i>支出登记</button></xblock>
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>
+            支出编号
+        </th>
+
+        <th>
+            支出类型
+        </th>
+        <th>
+            支出金额
+        </th>
+        <th>
+            支出时间
+        </th>
+        <th >
+            年份
+        </th>
+        <th>
+            月份
+        </th>
+
+        <th >
+            办理人
+        </th>
+        <th>
+            支出明细
+        </th>
+
+        <th>
+            操作
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="expenditures" id="vo"}
+    <tr>
+        <td>
+            {$vo['id']}
+        </td>
+        <td >
+            {$vo['brand']}
+        </td>
+        <td >
+            {$vo['outmoney']}
+        </td>
+        <td>
+            {$vo['expenditure_time']}
+        </td>
+        <td >
+            {$vo['year']}
+        </td>
+        <td >
+            {$vo['month']}
+        </td>
+        <td >
+            {$vo['transactor']}
+        </td>
+        <td >
+            {$vo['detail']}
+        </td>
+
+        <td class="td-manage">
+
+            <a style="text-decoration:none" onclick="member_edit('编辑','{:url(\'editExpenditure\')}','{$vo[\'id\']}','','510')" href="javascript:;" title="修改">
+                <i class="layui-icon">&#xe642;</i>
+            </a>
+
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<div id="page" style="margin-left: 300px;">{$expenditures->render()}</div>
+<!-- 右侧内容框架，更改从这里结束 -->
+{/block}
+{block name="script"}
+<script>
+    function member_edit (title,url,id,w,h) {
+        var test = window.location.host;
+        console.log(test+url+'?id='+id);
+        url = "http://"+test+url+'?id='+id;
+        x_admin_show(title,url,w,h);
+    }
+
+    /*用户-删除*/
+    function member_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            $.ajax({
+                type:'post',
+                url:'{:url(\'admin/funds/deleteFunds\')}',
+                data:{'id':id},
+                success:function(data){
+                    $(obj).parents("tr").remove();
+                    layer.msg(data.msg,{icon:1,time:1000});
+
+                },
+                error:function(data) {
+                    console.log(data.msg);
+                }
+            });
+        });
+    }
+
+</script>
+{/block}

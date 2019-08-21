@@ -1,0 +1,187 @@
+{extend name="basetemplate" /}
+{block name="right"}
+<!-- 右侧内容框架，更改从这里开始 -->
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>
+            序号
+        </th>
+        <th>
+            设备型号
+        </th>
+        <th>
+            设备名
+        </th>
+        <th style="width: 250px;">
+            购买时间
+        </th>
+        <th>
+            记录
+        </th>
+        <th>
+            部门
+        </th>
+
+        <th>
+            状态
+        </th>
+        <th>
+            操作
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="machines" id="vo"}
+    <tr>
+        <td>
+            {$vo['id']}
+        </td>
+        <td>
+            <u style="cursor:pointer">
+                {$vo['machine_number']}
+            </u>
+        </td>
+        <td >
+            {$vo['machine_name']}
+        </td>
+        <td style="width: 250px;">
+            {$vo['purchase_time']}
+        </td>
+        <td >
+            {$vo['desc']}
+        </td>
+        <td >
+            {$vo['dept']}
+        </td>
+        <td class="td-status">
+            {if condition="$vo['status'] eq 0"}
+            <span class="layui-btn layui-btn-normal layui-btn-mini">
+                                正常
+                            </span>
+            {elseif condition="$vo['status'] eq 1"/}
+            <span class="layui-btn layui-btn-danger layui-btn-mini">
+                                维修中
+                            </span>
+            {else/}
+            <span class="layui-btn layui-btn-warm layui-btn-mini">升级中</span>
+            {/if}
+
+        </td>
+        <td class="td-manage">
+            {if condition="$vo['status'] eq 0"}
+            <a style="text-decoration:none" onclick="member_repair(this,'{$vo[\'id\']}')" href="javascript:;" title="维修">
+                <i class="layui-icon">&#xe631;</i>
+            </a>
+            <a style="text-decoration:none" onclick="member_upload(this,'{$vo[\'id\']}')" href="javascript:;" title="升级">
+                <i class="layui-icon">&#xe62f;</i>
+            </a>
+
+            {/if}
+            <a title="编辑" href="javascript:;" onclick="member_edit('编辑','{:url(\'editMachine\')}','{$vo[\'id\']}','','510')"
+               style="text-decoration:none">
+                <i class="layui-icon">&#xe642;</i>
+            </a>
+            <a title="删除" href="javascript:;" onclick="member_del(this,'{$vo[\'id\']}')"
+               style="text-decoration:none">
+                <i class="layui-icon">&#xe640;</i>
+            </a>
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<!-- 右侧内容框架，更改从这里结束 -->
+<div id="page" style="margin-left: 300px;">{$machines->render()}</div>
+{/block}
+{block name="script"}
+<script>
+
+    /*用户-停用*/
+    function member_repair(obj,id){
+        layer.confirm('确认该设备已损坏，需要维修吗？',function(index){
+            //发异步把用户状态进行更改
+            $.ajax({
+                type:'post',
+                url:'{:url(\'admin/machine/manageStatus\')}',
+                data:{'id':id,'token':'repair'},
+                success:function(data){
+                    if(data.error ==0){
+                        layer.msg(data.msg,{icon: 5,time:1000});
+
+                        $(obj).remove();
+                        setTimeout(function(){
+                            //当你在iframe页面关闭自身时
+                            $(obj).parents("tr").find(".td-manage").remove('<a style="text-decoration:none" onClick="member_repair(this,id)" href="javascript:;" title="维修"><i class="layui-icon">&#xe631;</i></a>');
+                            $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-danger layui-btn-mini">维修中</span>');
+                            window.location.reload();
+                        },1000);
+                    }
+
+                    layer.msg(data.msg,{icon: 6,time:1000});
+                },
+                error:function(data) {
+                    console.log(data.msg);
+                },
+            });
+
+        });
+
+    }
+
+    /*用户-启用*/
+    function member_upload(obj,id){
+        layer.confirm('确认要升级该设备吗？',function(index){
+            //发异步把用户状态进行更改
+            $.ajax({
+                type:'post',
+                url:'{:url(\'admin/machine/manageStatus\')}',
+                data:{'id':id,'token':'upload'},
+                success:function(data){
+                    if(data.error == 0){
+                        $(obj).parents("tr").find(".td-manage").remove('<a style="text-decoration:none" onClick="member_upload(this,id)" href="javascript:;" title="升级"><i class="layui-icon">&#xe62f;</i></a>');
+                        $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-warm layui-btn-mini">升级</span>');
+                        $(obj).remove();
+                        layer.msg(data.msg,{icon: 5,time:1000});
+                        location.reload();
+                    }else{
+                        layer.close(layer.index);
+                        layer.msg(data.msg,{icon: 6,time:2000});
+                    }
+
+                }
+                ,error:function(data) {
+                    console.log(data.msg);
+                }
+            });
+        });
+    }
+
+    /*用户-删除*/
+    function member_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            $.ajax({
+                type:'post',
+                url:'{:url(\'admin/machine/deleteMachine\')}',
+                data:{'id':id},
+                success:function(data){
+                    $(obj).parents("tr").remove();
+                    layer.msg(data.msg,{icon:1,time:1000});
+
+                },
+                error:function(data) {
+                    console.log(data.msg);
+                }
+            });
+        });
+    }
+
+    function member_edit (title,url,id,w,h) {
+        var test = window.location.host;
+        console.log(test+url+'?id='+id);
+        url = "http://"+test+url+'?id='+id;console.log(url);
+        x_admin_show(title,url,w,h);
+    }
+
+</script>
+{/block}

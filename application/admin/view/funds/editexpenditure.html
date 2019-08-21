@@ -1,0 +1,104 @@
+{extend name="public" /}
+{block name="content"}
+<form class="layui-form" method="post" action="{:url('admin/funds/editExpenditure')}" >
+    <div class="layui-form-item">
+
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">
+                <span class="x-red">*</span>支出类型
+            </label>
+            <div class="layui-input-inline">
+                <select name="brand" lay-verify="required" id="brand">
+                    <option value=""></option>
+                    <option value="人员工资">人员工资</option>
+                    <option value="物业维修">物业维修</option>
+                    <option value="行政办公">行政办公</option>
+                    <option value="清洁卫生">清洁卫生</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_createtime" class="layui-form-label">
+                <span class="x-red">*</span>支出金额
+            </label>
+            <div class="layui-input-inline">
+                <input type="hidden" name="hideid" value="{$hideid}">
+                <input type="text" id="L_address" name="outmoney" required
+                       autocomplete="off" value="{$oldData['outmoney']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_year" class="layui-form-label">
+                年份
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_year" name="year" required
+                       autocomplete="off" value="{$oldData['year']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_month" class="layui-form-label">
+                <span class="x-red">*</span>月份
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_month" name="month" required
+                       autocomplete="off" value="{$oldData['month']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_create" class="layui-form-label">
+                <span class="x-red">*</span>办理人
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_qianfei" name="transactor" required
+                       autocomplete="off" value="{$oldData['transactor']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+
+            <label for="L_feetime" class="layui-form-label">
+                <span class="x-red">*</span>支出日期
+            </label>
+
+            <div class="layui-inline">
+                <div class="layui-input-inline xbs768">
+                    <input class="layui-input" name="expenditure_time" value="{$oldData['expenditure_time']}" placeholder="" id="LAY_demorange_s">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_create" class="layui-form-label">
+                <span class="x-red">*</span>支出明细
+            </label>
+            <div class="layui-input-inline">
+                <textarea name="detail" placeholder="请输入内容" style="width: 450px;" class="layui-textarea">{$oldData['detail']}</textarea>
+            </div>
+
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_sign" class="layui-form-label">
+            </label>
+            <button class="layui-btn" key="set-mine" lay-filter="save" lay-submit>
+                登记
+            </button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name="specific"}
+<script>
+    console.log("{$oldData['brand']}");
+   // var select = 'dd[lay-value=\'{$oldData[\'brand\']}\']';
+   var select =  'dd[lay-value=\'{$oldData[\'brand\']} \']';
+   console.log(select);
+    $('#brand').siblings("div.layui-form-select").find('dl').find(select).click();
+
+</script>
+{/block}

@@ -1,0 +1,50 @@
+{extend name="public" /}
+{block name="content"}
+<form class="layui-form" method="post" action="{:url('admin/machine/addRepairMsg')}" >
+    <div class="layui-form-item">
+
+
+         <div class="layui-form-item">
+
+        <label for="L_name" class="layui-form-label">
+            <span class="x-red">*</span>操作日期
+        </label>
+
+        <div class="layui-inline">
+            <div class="layui-input-inline xbs768">
+                <input type="hidden" name="hideid" value="{$hideid}">
+                <input class="layui-input" value="{$repair['reup_date']}" name="action_time" placeholder="" id="LAY_demorange_s">
+            </div>
+        </div>
+    </div>
+        <div class="layui-form-item">
+        <label for="L_createtime" class="layui-form-label">
+            操作人员
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="L_dept" name="people" required
+                   autocomplete="off" value="{$repair['person']}" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item layui-form-text">
+
+        <label for="L_name" class="layui-form-label">
+            操作内容
+        </label>
+
+        <div class="layui-input-block">
+                        <textarea  id="L_sign" name="desc" autocomplete="off"
+                                   class="layui-textarea" style="height: 80px;">{$repair['content']}</textarea>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="L_sign" class="layui-form-label">
+        </label>
+        <button class="layui-btn" key="set-mine" lay-filter="save" lay-submit>
+            记载
+        </button>
+    </div>
+    </div>
+</form>
+{/block}

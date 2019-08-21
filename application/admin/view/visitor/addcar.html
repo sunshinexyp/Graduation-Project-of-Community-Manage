@@ -1,0 +1,50 @@
+{extend name="public" /}
+{block name="content"}
+<form class="layui-form" method="post" action="{:url('admin/visitor/addCar')}" >
+    <div class="layui-form-item">
+
+        <div class="layui-form-item">
+            <label for="L_username" class="layui-form-label">
+                <span class="x-red">*</span>来访车牌号
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_username" name="carnumber" required
+                       autocomplete="off" value="" class="layui-input">
+            </div>
+
+        </div>
+
+        <div class="layui-form-item">
+
+            <label for="L_feetime" class="layui-form-label">
+                <span class="x-red">*</span>来访时间
+            </label>
+
+            <div class="layui-inline">
+                <div class="layui-input-inline xbs768">
+                    <input class="layui-input" name="visit_time" placeholder="" id="LAY_demorange_s">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+
+            <label for="L_feetime" class="layui-form-label">
+                <span class="x-red">*</span>离开时间
+            </label>
+
+            <div class="layui-inline">
+                <div class="layui-input-inline xbs768">
+                    <input class="layui-input" name="left_time" placeholder="" id="LAY_demorange_e">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_sign" class="layui-form-label">
+            </label>
+            <button class="layui-btn" key="set-mine" lay-filter="save" lay-submit>
+                登记
+            </button>
+        </div>
+    </div>
+</form>
+{/block}

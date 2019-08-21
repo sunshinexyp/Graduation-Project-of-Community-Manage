@@ -1,0 +1,452 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>信息化小区管理系统</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="__STATIC__/css/font.css">
+    <link rel="stylesheet" href="__STATIC__/css/xadmin.css">
+    <link rel="stylesheet" href="__STATIC__/css/swiper.css">
+    <script src="__STATIC__/js/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/js/xadmin.js"></script>
+    <script src="__STATIC__/lib/layui/layui.js" charset="utf-8"></script>
+    <style>
+        .site-demo-upload,
+        .site-demo-upload img{width: 200px; height: 200px; border-radius: 100%;}
+        .site-demo-upload{position: relative; background: #e2e2e2;}
+        .site-demo-upload .site-demo-upbar{position: absolute; top: 50%; left: 50%; margin: -18px 20px 0 -56px;}
+        .site-demo-upload .layui-upload-button{background-color: rgba(0,0,0,.2); color: rgba(255,255,255,1);}
+    </style>
+</head>
+<body>
+<!-- 顶部开始 -->
+<div class="container">
+    <div class="logo"><a href="./index.html">信息化小区系统</a></div>
+    <div class="open-nav"><i class="iconfont">&#xe699;</i></div>
+    <ul class="layui-nav right" lay-filter="">
+        <li class="layui-nav-item">
+            <a href="javascript:;">
+                {if condition="$user['avatar'] neq ''"}
+                <img src="{$user['avatar']}" class="layui-circle" width="35" height="35">
+                {else/}
+                <img src="__STATIC__/images/userface4.jpg" class="layui-circle" width="35" height="35">
+                {/if}
+                <cite>{$user['username']}</cite>
+            </a>
+            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                <dd><a href="{:url('admin/user/logout')}">退出</a></dd>
+            </dl>
+
+        </li>
+        <li class="layui-nav-item showNotice" id="showNotice" onclick="showNotice()">
+            <a href="javascript:;"><i class="iconfont icon-gonggao"></i><cite>系统公告</cite></a>
+        </li>
+        <li class="layui-nav-item lockcms" >
+            <a href="javascript:;"><i class="iconfont icon-lock1"></i><cite>锁屏</cite></a>
+        </li>
+
+    </ul>
+</div>
+<!-- 顶部结束 -->
+<!-- 中部开始 -->
+<div class="wrapper">
+    <!-- 左侧菜单开始 -->
+    <div class="left-nav">
+        <div id="side-nav">
+            <ul id="nav">
+                <li class="list" current>
+                    <a href="{:url('admin/display/index')}">
+                        <i class="iconfont">&#xe761;</i>
+                        欢迎页面
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                </li>
+                <li class="list" >
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe6a3;</i>
+                    小区公告管理
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu" style="display:none">
+                    <li>
+                        <a href="{:url('admin/notice/list')}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            公告的编辑
+                        </a>
+                    </li>
+
+
+                </ul>
+            </li>
+                <li class="list">
+                    <a href="javascript:;">
+                        <i class="iconfont">&#xe70b;</i>
+                        业主管理
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="{:url('admin/host/index')}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                编辑业主信息
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="list" >
+                    <a href="javascript:;">
+                        <i class="iconfont">&#xe6a3;</i>
+                        硬件设施管理
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu">
+                        <li>
+                            <a href="{:url('admin/machine/add')}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                公共设施登记
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:url('admin/machine/show')}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                公共设施管理
+                            </a>
+                        </li>
+                        <li>
+                        <a href="{:url('admin/machine/showRepair')}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            设施维护升级管理
+                        </a>
+                        </li>
+                    </ul>
+
+                </li>
+                <li class="list" >
+                    <a href="javascript:;">
+                        <i class="iconfont">&#xe6a3;</i>
+                        经费管理
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu" style="display:none">
+                        <li>
+                        <a href="{:url('admin/funds/showRevenue')}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            物业年费收费管理
+                        </a>
+                         </li>
+                        <li>
+                            <a href="{:url('admin/funds/showMeter')}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                其他费用管理
+                            </a>
+                        </li>
+                        <li>
+                        <a href="{:url('admin/funds/showStatistics')}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            物业收费统计
+                        </a>
+                        </li>
+                        <li>
+                        <a href="{:url('admin/funds/showExpenditure')}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            物业支出费用管理
+                        </a>
+                        </li>
+                        <li>
+
+                        <a href="{:url('admin/funds/showOut')}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            物业支出统计
+                        </a>
+                        </li>
+                        <li>
+                        <a href="{:url('admin/funds/showBrand')}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            支出分类统计
+                        </a>
+                         </li>
+                   </ul>
+
+                </li>
+                <li class="list" >
+                    <a href="javascript:;">
+                        <i class="iconfont">&#xe6a3;</i>
+                        访客管理
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu" style="display:none">
+                        <li>
+                            <a href="{:url('admin/visitor/showvisitor')}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                来访人员登记
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:url('admin/visitor/showCar')}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                来访车辆登记
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{:url('admin/visitor/visitorCount')}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                来访统计报表
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="list" >
+                    <a href="javascript:;">
+                        <i class="iconfont">&#xe6a3;</i>
+                        系统管理
+                        <i class="iconfont nav_right">&#xe697;</i>
+                    </a>
+                    <ul class="sub-menu" style="display:none">
+                        <li>
+                            <a href="{:url('admin/user/usermanage')}">
+                                <i class="iconfont">&#xe6a7;</i>
+                                用户管理
+                            </a>
+                        </li>
+
+
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+    <!-- 左侧菜单结束 -->
+    <!-- 右侧主体开始 -->
+    <div class="page-content">
+        <div class="content">
+        {block name="right"}右边分栏{/block}
+        </div>
+    </div>
+    <!-- 右侧主体结束 -->
+</div>
+<!-- 中部结束 -->
+<!-- 底部开始 -->
+<div class="footer">
+    <div class="copyright">Copyright ©2019 信息化小区管理 Reserved</div>
+</div>
+<!-- 底部结束 -->
+<!-- 背景切换开始 -->
+
+<!-- 背景切换结束 -->
+</body>
+<script>
+    function showNotice(){
+        layui.use("layer",function(){
+        layer.open({
+            type: 1,
+            title: "系统公告 &nbsp;&nbsp;&nbsp;{$latestNotice[0]->create_time|default=''}",
+            closeBtn: false,
+            area: '310px',
+            shade: [0.8, '#000'],
+            id: 'LAY_layuipro',
+            btn: ['我知道了'],
+            moveType: 1,
+            content: '<div style="padding:15px 20px; text-align:justify; line-height: 22px; text-indent:2em;border-bottom:1px solid #e2e2e2;">' +
+            '<p style="font-weight: bold;color: red;font-size: 17px;">{$latestNotice[0]->title|default="无标题"}</p>'+
+            '<p>{$latestNotice[0]->content|default="暂无公告"}</p>' + '</div>',
+            success: function(layero){
+                var btn = layero.find('.layui-layer-btn');
+                btn.css('text-align', 'center');
+                btn.on("click",function(){
+                    window.sessionStorage.setItem("showNotice","true");
+                })
+                if($(window).width() > 432){  //如果页面宽度不足以显示顶部“系统公告”按钮，则不提示
+                    btn.on("click",function(){
+                        layer.tips('系统公告躲在了这里', '#showNotice', {
+                            tips: 3
+                        });
+                    })
+                }
+            }
+        });});
+    }
+    //锁屏
+    function lockPage(){
+        layui.use("layer",function(){
+        layer.open({
+            title : false,
+            type : 1,
+            content : '	<div class="admin-header-lock" id="lock-box">'+
+            '<div class="admin-header-lock-img"><br></div>'+
+            '<div class="admin-header-lock-name" id="lockUserName">{$Think.session.username}</div>'+
+            '<div class="input_btn">'+
+            '<input type="password" class="admin-header-lock-input layui-input" autocomplete="off" placeholder="请输入密码解锁.." name="lockPwd" id="lockPwd" />'+
+            '<button class="layui-btn" id="unlock">解锁</button>'+
+            '</div>'+
+
+            '</div>',
+            closeBtn : 0,
+            shade: [0.8, '#393D49'],
+        })});
+        $(".admin-header-lock-input").focus();
+    }
+    $(".lockcms").on("click",function(){
+        window.sessionStorage.setItem("lockcms",true);
+        lockPage();
+    })
+    // 判断是否显示锁屏
+    if(window.sessionStorage.getItem("lockcms") == "true"){
+        lockPage();
+    }
+    // 解锁
+    $("body").on("click","#unlock",function(){
+
+        console.log($(this).siblings(".admin-header-lock-input").val());
+        if($(this).siblings(".admin-header-lock-input").val() == ''){
+            layer.msg("请输入解锁密码！");
+            $(this).siblings(".admin-header-lock-input").focus();
+        }else{
+            if('{$user[\'lock\']}' == ''){
+                if($(this).siblings(".admin-header-lock-input").val() == '123456'){
+                    window.sessionStorage.setItem("lockcms",false);
+                    $(this).siblings(".admin-header-lock-input").val('');
+                    layer.closeAll("page");
+                }else{
+                    layer.msg("密码错误，请重新输入！");
+                    $(this).siblings(".admin-header-lock-input").val('').focus();
+                }
+            }else{
+                if($(this).siblings(".admin-header-lock-input").val() == '{$user[\'lock\']}'){
+                    window.sessionStorage.setItem("lockcms",false);
+                    $(this).siblings(".admin-header-lock-input").val('');
+                    layer.closeAll("page");
+                }else{
+                    layer.msg("密码错误，请重新输入！");
+                    $(this).siblings(".admin-header-lock-input").val('').focus();
+                }
+
+            }
+
+
+        }
+    });
+    $(document).on('keydown', function() {
+        if(event.keyCode == 13) {
+            $("#unlock").click();
+        }
+    });
+    //判断是否处于锁屏状态(如果关闭以后则未关闭浏览器之前不再显示)
+    if(window.sessionStorage.getItem("lockcms") != "true" && window.sessionStorage.getItem("showNotice") != "true"){
+        showNotice();
+    }
+    $(".showNotice").on("click",function(){
+        showNotice();
+    });
+
+    function delAll () {
+        layer.confirm('确认要删除吗？',function(index){
+            //捉到所有被选中的，发异步进行删除
+            layer.msg('删除成功', {icon: 1});
+        });
+    }
+    /*用户-添加*/
+    function member_add(title,url,w,h){
+        x_admin_show(title,url,w,h);
+    }
+    /*用户-查看*/
+    function member_show(title,url,id,w,h){
+        x_admin_show(title,url,w,h);
+    }
+
+
+    // 用户-编辑
+    function member_edit (title,url,id,w,h) {
+        x_admin_show(title,url,w,h);
+    }
+    /*密码-修改*/
+    function member_password(title,url,id,w,h){
+        x_admin_show(title,url,w,h);
+    }
+
+    /*用户-停用*/
+    function member_stop(obj,id){
+        layer.confirm('确认要停用吗？',function(index){
+            //发异步把用户状态进行更改
+            $.ajax({
+                type:'post',
+                url:'{:url(\'magazine/add/delmag\')}',
+                data:{'id':id},
+                success:function(data){
+                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_start(this,id)" href="javascript:;" title="启用"><i class="layui-icon">&#xe62f;</i></a>');
+                    $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-disabled layui-btn-mini">已停用</span>');
+                    $(obj).remove();
+                    layer.msg('已停用!',{icon: 5,time:1000});
+                }
+            });
+
+        });
+    }
+
+    /*用户-启用*/
+    function member_start(obj,id){
+        layer.confirm('确认要启用吗？',function(index){
+            //发异步把用户状态进行更改
+            $.ajax({
+                type:'post',
+                url:'{:url(\'magazine/add/delmag\')}',
+                data:{'id':id},
+                success:function(data){
+                    $(obj).parents("tr").find(".td-manage").prepend('<a style="text-decoration:none" onClick="member_stop(this,id)" href="javascript:;" title="停用"><i class="layui-icon">&#xe601;</i></a>');
+                    $(obj).parents("tr").find(".td-status").html('<span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span>');
+                    $(obj).remove();
+                    layer.msg('已启用!',{icon: 6,time:1000});
+                }
+            });
+
+        });
+    }
+</script>
+<script>
+    layui.use(['laydate'], function(){
+        laydate = layui.laydate;//日期插件
+
+        //以上模块根据需要引入
+        //
+        var start = {
+            min: laydate.now()
+            ,max: '2099-06-16 23:59:59'
+            ,type:'datetime'
+            ,istoday: false
+            ,choose: function(datas){
+                end.min = datas; //开始日选好后，重置结束日的最小日期
+                end.start = datas //将结束日的初始值设定为开始日
+            }
+        };
+
+        var end = {
+            min: laydate.now()
+            ,max: '2099-06-16 23:59:59'
+            ,istoday: false
+            ,type:'datetime'
+            ,choose: function(datas){
+                start.max = datas; //结束日选好后，重置开始日的最大日期
+            }
+        };
+
+        document.getElementById('LAY_demorange_s').onclick = function(){
+            start.elem = this;
+            start.type='datetime';
+            laydate(start);
+        };
+        document.getElementById('LAY_demorange_e').onclick = function(){
+            end.elem = this;
+            end.type='datetime';
+            laydate(end);
+        }
+
+    });
+
+</script>
+{block name="script"}
+{/block}
+</html>

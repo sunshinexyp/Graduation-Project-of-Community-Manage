@@ -1,0 +1,106 @@
+{extend name="public" /}
+{block name="content"}
+<form class="layui-form" method="post" action="{:url('admin/host/message')}">
+    <div class="layui-form-item">
+        <label for="L_email" class="layui-form-label" >
+            住户编号
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="L_id" name="hostid" required
+                   autocomplete="off" value="" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label for="L_username" class="layui-form-label">
+            住户姓名
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="L_username" name="hostname" required lay-verify="required"
+                   autocomplete="off" value="" class="layui-input">
+        </div>
+        <div class="layui-inline">
+            <div class="layui-input-inline">
+                <input type="radio" name="sex" value="0"  title="男">
+                <input type="radio" name="sex" value="1" title="女">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="L_email" class="layui-form-label">
+            手机号
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="L_phone" name="phone" required lay-verify="phone"
+                   autocomplete="off" value="" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label for="L_email" class="layui-form-label">
+            身份证
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="L_card" name="card" required lay-verify="identify"
+                   autocomplete="off" value="" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label for="L_city" class="layui-form-label">
+            籍贯
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="L_city" name="city" autocomplete="off" value="广州"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="L_username" class="layui-form-label">
+            入住时间
+        </label>
+        <div class="layui-inline">
+            <div class="layui-input-inline xbs768">
+                <input class="layui-input" placeholder="入住日" name="intime" id="LAY_demorange_s">
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label for="L_roomarea" class="layui-form-label">
+            建筑面积
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="L_roomarea" name="roomarea" required lay-verify="number"
+                   autocomplete="off" value="" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label for="L_email" class="layui-form-label">
+            工作单位
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="L_workplace" name="workplace" required
+                   autocomplete="off" value="" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label for="L_email" class="layui-form-label">
+            物业地址
+        </label>
+        <div class="layui-input-inline">
+            <input type="text" id="L_address" name="address" required
+                   autocomplete="off" value="" class="layui-input">
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label for="L_sign" class="layui-form-label">
+        </label>
+        <button class="layui-btn" key="set-mine" lay-filter="save" lay-submit>
+            保存
+        </button>
+    </div>
+</form>
+{/block}

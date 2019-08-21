@@ -1,0 +1,133 @@
+{extend name="basetemplate" /}
+{block name="right"}
+
+    <!-- 右侧内容框架，更改从这里开始 -->
+    <xblock><button class="layui-btn" onclick="member_add('添加用户','{:url(\'admin/host/message\')}','850','600')"><i class="layui-icon">&#xe608;</i>添加业主信息</button><span class="x-right" style="line-height:40px">共有数据：{$listNum} 条</span></xblock>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <th>
+                住户编号
+            </th>
+            <th>
+                住户名
+            </th>
+            <th>
+                性别
+            </th>
+            <th>
+                手机
+            </th>
+            <th>
+                身份证号
+            </th>
+            <th>
+                籍贯
+            </th>
+            <th>
+                入住时间
+            </th>
+            <th>
+                住房面积
+            </th>
+            <th>
+                单位
+            </th>
+            <th>
+                物业地址
+            </th>
+            <th>
+                操作
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="hosts" id="vo"}
+        <tr>
+            <td>
+                {$vo['hostnumber']}
+            </td>
+            <td>
+                <u style="cursor:pointer">
+                    {$vo['hostname']}
+                </u>
+            </td>
+            <td >
+                {if condition="$vo['sex'] eq 1"}
+                女
+                {else/}
+                男
+                {/if}
+
+            </td>
+            <td>
+                {$vo['phone']}
+            </td>
+            <td >
+                {$vo['identify']}
+            </td>
+            <td >
+                {$vo['birthplace']}
+            </td>
+            <td >
+                {$vo['intime']}
+            </td>
+            <td>
+                {$vo['roomarea']}
+            </td>
+            <td >
+                {$vo['workplace']}
+            </td>
+            <td >
+                {$vo['address']}
+            </td>
+
+            <td class="td-manage">
+                <a title="编辑" href="javascript:;" onclick="member_edit('编辑','{:url(\'editmessage\')}','{$vo[\'id\']}','','510')"
+                   class="ml-5" style="text-decoration:none">
+                    <i class="layui-icon">&#xe642;</i>
+                </a>
+                <a title="删除" href="javascript:;" onclick="member_del(this,'{$vo[\'id\']}')"
+                   style="text-decoration:none">
+                    <i class="layui-icon">&#xe640;</i>
+                </a>
+            </td>
+        </tr>
+        {/volist}
+
+        </tbody>
+    </table>
+<div id="page" style="margin-left: 300px;">{$hosts->render()}</div>
+    <!-- 右侧内容框架，更改从这里结束 -->
+{/block}
+{block name="script"}
+<script>
+    // 用户-编辑
+    function member_edit (title,url,id,w,h) {
+        var test = window.location.host;
+        console.log(id);
+        url = "http://"+test+url+'?id='+id;
+        x_admin_show(title,url,w,h);
+    }
+
+    /*用户-删除*/
+    function member_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            $.ajax({
+                type:'post',
+                url:'{:url(\'admin/host/deletemessage\')}',
+                data:{'id':id},
+                success:function(data){
+                    $(obj).parents("tr").remove();
+                    layer.msg(data.msg,{icon:1,time:1000});
+
+                },
+                error:function(data) {
+                    console.log(data.msg);
+                }
+            });
+        });
+    }
+
+</script>
+{/block}

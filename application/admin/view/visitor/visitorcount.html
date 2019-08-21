@@ -1,0 +1,36 @@
+{extend name="basetemplate" /}
+{block name="right"}
+<table class="layui-table">
+    <thead>
+    <tr>
+        <th>
+            访问日期
+        </th>
+
+        <th>
+            访问人数统计
+        </th>
+        <th>
+            访问车辆数统计
+        </th>
+
+    </tr>
+    </thead>
+    <tbody>
+    {volist name="visitors" id="vo"}
+    <tr>
+        <td>
+            {$vo['visit_time']}
+        </td>
+        <td>
+            {$vo['person']}
+        </td>
+        <td >
+            {$vo['car']}
+        </td>
+    </tr>
+    {/volist}
+    </tbody>
+</table>
+<!-- 右侧内容框架，更改从这里结束 -->
+{/block}

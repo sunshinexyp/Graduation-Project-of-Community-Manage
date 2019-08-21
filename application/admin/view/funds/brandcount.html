@@ -1,0 +1,192 @@
+{extend name="basetemplate" /}
+{block name="right"}
+<form class="layui-form" method="" action="" >
+    <div class="layui-input-inline">
+        <select lay-filter="pid" name="year" lay-verify="required" id="year">
+            <option class="test" value=""></option>
+            {volist name="years" id="vo"}
+            <option class="test" value="{$vo['year']}">{$vo['year']}年</option>
+            {/volist}
+        </select>
+    </div>
+</form><br>
+<div id="main" style="width: 100%;height:400px;"></div>
+{/block}
+{block name="script"}
+<script src="__STATIC__/js/echarts.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="__STATIC__/js/echarts-for-x-admin.js"></script>
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'),'echarts-for-x-admin');
+
+    // 指定图表的配置项和数据
+    var option = {
+        title: {
+            text: '支出分类统计'
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['{$brand[0][\'brand\']}','{$brand[1][\'brand\']}','{$brand[2][\'brand\']}','{$brand[3][\'brand\']}']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name:'{$brand[0][\'brand\']}',
+                type:'line',
+                stack: '总量',
+                data:['{$res[0][0]}', '{$res[0][1]}', '{$res[0][2]}',
+                    '{$res[0][3]}', '{$res[0][4]}','{$res[0][5]}','{$res[0][6]}', '{$res[0][7]}', '{$res[0][8]}', '{$res[0][9]}', '{$res[0][10]}', '{$res[0][11]}']
+            },
+            {
+                name:'{$brand[1][\'brand\']}',
+                type:'line',
+                stack: '总量',
+                data:['{$res[1][0]}', '{$res[1][1]}', '{$res[1][2]}',
+        '{$res[1][3]}', '{$res[1][4]}','{$res[1][5]}','{$res[1][6]}', '{$res[1][7]}', '{$res[1][8]}', '{$res[1][9]}', '{$res[1][10]}', '{$res[1][11]}']
+            },
+            {
+                name:'{$brand[2][\'brand\']}',
+                type:'line',
+                stack: '总量',
+                data:['{$res[2][0]}', '{$res[2][1]}', '{$res[2][2]}',
+                    '{$res[2][3]}', '{$res[2][4]}','{$res[2][5]}','{$res[2][6]}', '{$res[2][7]}', '{$res[2][8]}', '{$res[2][9]}', '{$res[2][10]}', '{$res[2][11]}']
+            },
+            {
+                name:'{$brand[3][\'brand\']}',
+                type:'line',
+                stack: '总量',
+                data:['{$res[3][0]}', '{$res[3][1]}', '{$res[3][2]}',
+        '{$res[3][3]}', '{$res[3][4]}','{$res[3][5]}','{$res[3][6]}', '{$res[3][7]}', '{$res[3][8]}', '{$res[3][9]}', '{$res[3][10]}', '{$res[3][11]}']
+            }
+        ]
+    };
+
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+
+    var res=[];
+    var brand = [];
+    $(document).on('click', "dd",function() {
+        var year = document.getElementById("year").value;
+        if(year != '' ){
+            t = year;
+            $.ajax({
+                type:'post',
+                url:'{:url(\'admin/funds/showBrand\')}',
+                data:{year:year},
+                dataType:'json',
+                success:function (data) {
+                    console.log(data.res);
+                    console.log(data.brand);
+
+                    res=[];
+                    brand=[];
+                    if(data.error == 1){
+                        layer.open({
+                            time:1500,
+                            title:"提示",
+                            content:data.msg
+                        });
+                    }else{
+                        for(var i=0;i<data.res.length;i++){
+                            res.push(data.res[i]);    //挨个取出销量并填入销量数组
+                        }
+                        for(var i=0;i<data.brand.length;i++){
+                            brand.push(data.brand[i]);    //挨个取出销量并填入销量数组
+                        }
+                        myChart = echarts.init(document.getElementById('main'),'echarts-for-x-admin');
+                        myChart.setOption({
+                            title: {
+                                text: '支出分类统计'
+                            },
+                            tooltip: {
+                                trigger: 'axis'
+                            },
+                            legend: {
+                                data:[brand[0]['brand'],brand[1]['brand'],brand[2]['brand'],brand[3]['brand']]
+                            },
+                            grid: {
+                                left: '3%',
+                                right: '4%',
+                                bottom: '3%',
+                                containLabel: true
+                            },
+                            toolbox: {
+                                feature: {
+                                    saveAsImage: {}
+                                }
+                            },
+                            xAxis: {
+                                type: 'category',
+                                boundaryGap: false,
+                                data: ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+                            },
+                            yAxis: {
+                                type: 'value'
+                            },
+                            series: [
+                                {
+                                    name:brand[0]['brand'],
+                                    type:'line',
+                                    stack: '总量',
+                                    data:[res[0][0],res[0][1],res[0][2],res[0][3],res[0][4],res[0][5],
+                                        res[0][6],res[0][7],res[0][8],res[0][9],res[0][10],res[0][11],res[0][12]]
+                                },
+                                {
+                                    name:brand[1]['brand'],
+                                    type:'line',
+                                    stack: '总量',
+                                    data:[res[1][0],res[1][1],res[1][2],res[1][3],res[1][4],res[1][5],
+                                        res[1][6],res[1][7],res[1][8],res[1][9],res[1][10],res[1][11],res[1][12]]
+                                },
+                                {
+                                    name:brand[2]['brand'],
+                                    type:'line',
+                                    stack: '总量',
+                                    data:[res[2][0],res[2][1],res[2][2],res[2][3],res[2][4],res[2][5],
+                                        res[2][6],res[2][7],res[2][8],res[2][9],res[2][10],res[2][11],res[2][12]]
+                                },
+                                {
+                                    name:brand[3]['brand'],
+                                    type:'line',
+                                    stack: '总量',
+                                    data:[res[3][0],res[3][1],res[3][2],res[3][3],res[3][4],res[3][5],
+                                        res[3][6],res[3][7],res[3][8],res[3][9],res[3][10],res[3][11],res[3][12]]
+                                },
+
+                            ]
+                        },true);
+
+                    }
+                },
+                error:function (data) {
+                    console.log("请求失败！");
+                }
+            });
+        }
+
+
+    });
+</script>
+{/block}

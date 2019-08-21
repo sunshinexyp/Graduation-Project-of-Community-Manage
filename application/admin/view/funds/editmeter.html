@@ -1,0 +1,651 @@
+{extend name="public"/}
+{block name="content"}
+{if condition="$brand eq '水表' "}
+<form class="layui-form"  >
+    <div class="layui-form-item">
+
+        <div class="layui-form-item">
+            <label for="L_createtime" class="layui-form-label">
+                <span class="x-red">*</span>户名
+            </label>
+            <div class="layui-input-inline">
+                <input type="hidden" name="type" value="1">
+                <input type="hidden" name="hideid" value="{$hideid}">
+                <input type="text" id="L_huzhu" name="zhuhu" required
+                       autocomplete="off" value="{$oldData['hostuser']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_water" class="layui-form-label">
+                本月用水量
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_water" name="dosage" required
+                       autocomplete="off" value="{$oldData['dosage']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_month" class="layui-form-label">
+                <span class="x-red">*</span>每升水单价
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_waterprice" name="price" required
+                       autocomplete="off" value="{$oldData['perprice']}" class="layui-input">
+            </div>
+
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_create" class="layui-form-label">
+                <span class="x-red">*</span>办理人
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_waterdealer" name="dealer" required
+                       autocomplete="off" value="{$oldData['dealer']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+
+            <label for="L_feetime" class="layui-form-label">
+                <span class="x-red">*</span>开始日期
+            </label>
+
+            <div class="layui-inline">
+                <div class="layui-input-inline xbs768">
+                    <input class="layui-input" name="start_time" placeholder="" value="{$oldData['start_time']}" id="test1">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+
+            <label for="L_feetime" class="layui-form-label">
+                <span class="x-red">*</span>结束日期
+            </label>
+
+            <div class="layui-inline">
+                <div class="layui-input-inline xbs768">
+                    <input class="layui-input" name="end_time" placeholder="" value="{$oldData['end_time']}" id="test2">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_sign" class="layui-form-label">
+            </label>
+            <button class="layui-btn" key="set-mine" lay-filter="save" lay-submit>
+                登记
+            </button>
+        </div>
+    </div>
+</form>
+
+{elseif condition="$brand eq '电表' "}
+<form class="layui-form" method="" action="" >
+    <div class="layui-form-item">
+
+        <div class="layui-form-item">
+            <label for="L_createtime" class="layui-form-label">
+                <span class="x-red">*</span>住户名
+            </label>
+            <div class="layui-input-inline">
+                <input type="hidden" name="type" value="2">
+                <input type="hidden" name="hideid" value="{$hideid}">
+                <input type="text" id="L_zhuhuming" name="zhuhu" required
+                       autocomplete="off" value="{$oldData['hostuser']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_year" class="layui-form-label">
+                用电量
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_electricity" name="dosage" required
+                       autocomplete="off" value="{$oldData['dosage']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_month" class="layui-form-label">
+                <span class="x-red">*</span>每度电单价
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_electricityprice" name="price" required
+                       autocomplete="off" value="{$oldData['perprice']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_create" class="layui-form-label">
+                <span class="x-red">*</span>电费办理人
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_electricitydealer" name="dealer" required
+                       autocomplete="off" value="{$oldData['dealer']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+
+            <label for="L_feetime" class="layui-form-label">
+                <span class="x-red">*</span>开始日期
+            </label>
+
+            <div class="layui-inline">
+                <div class="layui-input-inline xbs768">
+                    <input class="layui-input" name="start_time" placeholder="" value="{$oldData['start_time']}" id="test3">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+
+            <label for="L_feetime" class="layui-form-label">
+                <span class="x-red">*</span>结束日期
+            </label>
+
+            <div class="layui-inline">
+                <div class="layui-input-inline xbs768">
+                    <input class="layui-input" name="end_time" placeholder="" value="{$oldData['end_time']}" id="test4">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_sign" class="layui-form-label">
+            </label>
+            <button class="layui-btn" key="set-mine" lay-filter="save" lay-submit>
+                登记
+            </button>
+        </div>
+    </div>
+</form>
+
+{elseif condition="$brand eq '' "}
+<div class="layui-tab layui-tab-card">
+    <ul class="layui-tab-title">
+        <li class="layui-this">水表</li>
+        <li>电表</li>
+        <li>气表</li>
+
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <form class="layui-form" method="" action="" >
+                <div class="layui-form-item">
+
+                    <div class="layui-form-item">
+                        <label for="L_createtime" class="layui-form-label">
+                            <span class="x-red">*</span>户名
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="hidden" name="type" value="1">
+                            <input type="hidden" name="hideid" value="{$hideid}">
+                            <input type="text" id="L_hzhu" name="zhuhu" required
+                                   autocomplete="off" value="{$oldData['hostuser']}" class="layui-input">
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_water" class="layui-form-label">
+                            本月用水量
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="L_waer" name="dosage" required
+                                   autocomplete="off" value="" class="layui-input">
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_month" class="layui-form-label">
+                            <span class="x-red">*</span>每升水单价
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="L_watrprice" name="price" required
+                                   autocomplete="off" value="" class="layui-input">
+                        </div>
+
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label for="L_create" class="layui-form-label">
+                            <span class="x-red">*</span>办理人
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="L_waterealer" name="dealer" required
+                                   autocomplete="off" value="" class="layui-input">
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+
+                        <label for="L_feetime" class="layui-form-label">
+                            <span class="x-red">*</span>开始日期
+                        </label>
+
+                        <div class="layui-inline">
+                            <div class="layui-input-inline xbs768">
+                                <input class="layui-input" name="start_time" placeholder="" id="test7">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+
+                        <label for="L_feetime" class="layui-form-label">
+                            <span class="x-red">*</span>结束日期
+                        </label>
+
+                        <div class="layui-inline">
+                            <div class="layui-input-inline xbs768">
+                                <input class="layui-input" name="end_time" placeholder="" id="test8">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_sign" class="layui-form-label">
+                        </label>
+                        <button class="layui-btn" key="set-mine" lay-filter="save1" lay-submit>
+                            登记
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-tab-item">
+            <form class="layui-form" >
+                <div class="layui-form-item">
+
+                    <div class="layui-form-item">
+                        <label for="L_createtime" class="layui-form-label">
+                            <span class="x-red">*</span>住户名
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="hidden" name="type" value="2">
+                            <input type="hidden" name="hideid" value="{$hideid}">
+                            <input type="text" id="L_zhuhumng" name="zhuhu" required
+                                   autocomplete="off" value="{$oldData['hostuser']}" class="layui-input">
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_year" class="layui-form-label">
+                            用电量
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="L_electriity" name="dosage" required
+                                   autocomplete="off" value="" class="layui-input">
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_month" class="layui-form-label">
+                            <span class="x-red">*</span>每度电单价
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="L_electricitypice" name="price" required
+                                   autocomplete="off" value="" class="layui-input">
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_create" class="layui-form-label">
+                            <span class="x-red">*</span>电费办理人
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="L_electricitydeaer" name="dealer" required
+                                   autocomplete="off" value="" class="layui-input">
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+
+                        <label for="L_feetime" class="layui-form-label">
+                            <span class="x-red">*</span>开始日期
+                        </label>
+
+                        <div class="layui-inline">
+                            <div class="layui-input-inline xbs768">
+                                <input class="layui-input" name="start_time" placeholder="" id="test6">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+
+                        <label for="L_feetime" class="layui-form-label">
+                            <span class="x-red">*</span>结束日期
+                        </label>
+
+                        <div class="layui-inline">
+                            <div class="layui-input-inline xbs768">
+                                <input class="layui-input" name="end_time" placeholder="" id="test5">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_sign" class="layui-form-label">
+                        </label>
+                        <button class="layui-btn" key="set-mine" lay-filter="save1" lay-submit>
+                            登记
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="layui-tab-item">
+            <form class="layui-form" method="" action="" >
+                <div class="layui-form-item">
+
+                    <div class="layui-form-item">
+                        <label for="L_createtime" class="layui-form-label">
+                            <span class="x-red">*</span>户主名
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="hidden" name="type" value="3">
+                            <input type="hidden" name="hideid" value="{$hideid}">
+                            <input type="text" id="L_hostusr" name="zhuhu" required
+                                   autocomplete="off" value="{$oldData['hostuser']}" class="layui-input">
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_year" class="layui-form-label">
+                            本月用气量
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="L_as" name="dosage" required
+                                   autocomplete="off" value="" class="layui-input">
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_month" class="layui-form-label">
+                            <span class="x-red">*</span>单价
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="L_gaspice" name="price" required
+                                   autocomplete="off" value="" class="layui-input">
+                        </div>
+
+                    </div>
+
+                    <div class="layui-form-item">
+                        <label for="L_create" class="layui-form-label">
+                            <span class="x-red">*</span>办理人
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="L_deaer" name="dealer" required
+                                   autocomplete="off" value="" class="layui-input">
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+
+                        <label for="L_feetime" class="layui-form-label">
+                            <span class="x-red">*</span>开始日期
+                        </label>
+
+                        <div class="layui-inline">
+                            <div class="layui-input-inline xbs768">
+                                <input class="layui-input" name="start_time" placeholder="" id="LAY_demorange_q">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item">
+
+                        <label for="L_feetime" class="layui-form-label">
+                            <span class="x-red">*</span>结束日期
+                        </label>
+
+                        <div class="layui-inline">
+                            <div class="layui-input-inline xbs768">
+                                <input class="layui-input" name="end_time" placeholder="" id="LAY_demorange_w">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="L_sign" class="layui-form-label">
+                        </label>
+                        <button class="layui-btn" key="set-mine" lay-filter="save1" lay-submit>
+                            登记
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+{else/}
+<form class="layui-form" >
+    <div class="layui-form-item">
+
+        <div class="layui-form-item">
+            <label for="L_createtime" class="layui-form-label">
+                <span class="x-red">*</span>户主名
+            </label>
+            <div class="layui-input-inline">
+                <input type="hidden" name="type" value="3">
+                <input type="hidden" name="hideid" value="{$hideid}">
+                <input type="text" id="L_hostuser" name="zhuhu" required
+                       autocomplete="off" value="{$oldData['hostuser']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_year" class="layui-form-label">
+                本月用气量
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_gas" name="dosage" required
+                       autocomplete="off" value="{$oldData['dosage']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <label for="L_month" class="layui-form-label">
+                <span class="x-red">*</span>单价
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_gasprice" name="price" required
+                       autocomplete="off" value="{$oldData['perprice']}" class="layui-input">
+            </div>
+
+        </div>
+
+        <div class="layui-form-item">
+            <label for="L_create" class="layui-form-label">
+                <span class="x-red">*</span>办理人
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="L_dealer" name="dealer" required
+                       autocomplete="off" value="{$oldData['dealer']}" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+
+            <label for="L_feetime" class="layui-form-label">
+                <span class="x-red">*</span>开始日期
+            </label>
+
+            <div class="layui-inline">
+                <div class="layui-input-inline xbs768">
+                    <input class="layui-input" name="start_time" value="{$oldData['start_time']}" placeholder="" id="LAY_demorange_s">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+
+            <label for="L_feetime" class="layui-form-label">
+                <span class="x-red">*</span>结束日期
+            </label>
+
+            <div class="layui-inline">
+                <div class="layui-input-inline xbs768">
+                    <input class="layui-input" name="end_time" placeholder="" value="{$oldData['end_time']}" id="LAY_demorange_e">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_sign" class="layui-form-label">
+            </label>
+            <button class="layui-btn" key="set-mine" lay-filter="save" lay-submit>
+                登记
+            </button>
+        </div>
+    </div>
+</form>
+{/if}
+{/block}
+
+{block name="specific"}
+<script>
+    layui.use(['layer','form'],function () {
+        var form = layui.form();
+        form.on('submit(save)',function (data) {
+            $.ajax({
+                type:"post",
+                url:'{:url(\'admin/funds/editMeterFunds\')}',
+                data:{"zhuhu":data.field.zhuhu,"dosage":data.field.dosage,
+                    "price":data.field.price,"dealer":data.field.dealer,"start_time":data.field.start_time,
+                "end_time":data.field.end_time,"hideid":data.field.hideid,"type":data.field.type},
+                success:function (data) {
+                  //  console.log(data);
+                    $("body").html(data);
+                    if(data.error == 0 ){
+                        layer.msg(data.msg,{icon:6});
+                        setTimeout(function(){
+                            //当你在iframe页面关闭自身时
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+                        },1000);
+                    }else{
+                      //  console.log(data);
+
+                        layer.msg(data.msg,{icon:5});
+                    }
+                },
+                error:function (data) {
+                  //  $("body").html(data);
+                    console.log(data);
+                }
+            });
+            return false;
+        });
+        form.on('submit(save1)',function (data) {
+            $.ajax({
+                type:"post",
+                url:'{:url(\'admin/funds/editMeter\')}',
+                data:{"zhuhu":data.field.zhuhu,"dosage":data.field.dosage,
+                    "price":data.field.price,"dealer":data.field.dealer,"start_time":data.field.start_time,
+                    "end_time":data.field.end_time,"hideid":data.field.hideid,"type":data.field.type},
+                success:function (data) {
+                    if(data.error == 0 ){
+                        layer.msg(data.msg,{icon:6});
+                        setTimeout(function(){
+                            //当你在iframe页面关闭自身时
+                            var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                            parent.layer.close(index); //再执行关闭
+                        },1000);
+                    }else{
+                        layer.msg(data.msg,{icon:5,time:1000});
+                    }
+                },
+                error:function (data) {
+                    $("body").html(data.responseText);
+                    console.log(data);
+                }
+            });
+            return false;
+        });
+    });
+        layui.use(['laydate'], function(){
+            laydate = layui.laydate;//日期插件
+
+//以上模块根据需要引入
+            var start = {
+
+                min: laydate.now()
+                ,max: '2099-06-16 23:59:59'
+                ,istoday: false
+                ,istime:true
+                ,type:'datetime'
+                ,choose: function(datas){
+                    end.min = datas; //开始日选好后，重置结束日的最小日期
+                    end.start = datas //将结束日的初始值设定为开始日
+                }
+            };
+
+            var end = {
+                min: laydate.now()
+                ,max: '2099-06-16 23:59:59'
+                ,istoday: false
+                ,istime:true
+                ,type:'datetime'
+                ,choose: function(datas){
+                    start.max = datas; //结束日选好后，重置开始日的最大日期
+                }
+            };
+            var water = '水表';
+            "{if condition="$brand eq '水表' "}"
+            document.getElementById('test1').onclick = function(){
+                        start.elem = this;
+                        laydate(start);
+                    };
+            document.getElementById('test2').onclick = function(){
+                        end.elem = this;
+                        laydate(end);
+                    };
+
+            "{elseif condition="$brand eq '电表' "}"
+            document.getElementById('test3').onclick = function(){
+
+                end.elem = this;
+                laydate(end);
+            };
+            document.getElementById('test4').onclick = function(){
+
+                end.elem = this;
+                laydate(end);
+            };
+            "{else /}"
+            document.getElementById('test7').onclick = function(){
+
+                start.elem = this;
+                laydate(start);
+            };
+            document.getElementById('test8').onclick = function(){
+
+                end.elem = this;
+                laydate(end);
+            };
+            document.getElementById('test6').onclick = function(){
+
+                end.elem = this;
+                laydate(end);
+            };
+            document.getElementById('test5').onclick = function(){
+
+                end.elem = this;
+                laydate(end);
+            };
+            document.getElementById('LAY_demorange_w').onclick = function(){
+
+                end.elem = this;
+                laydate(end);
+            };
+            document.getElementById('LAY_demorange_q').onclick = function(){
+                end.elem = this;
+                laydate(end);
+            };
+            "{/if}"
+        });
+</script>
+
+{/block}
