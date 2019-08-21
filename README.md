@@ -74,6 +74,8 @@ C.用户的管理
 6.用户表
 
 ## 系统界面
-  登录页：
  ![alt](https://github.com/sunshinexyp/Graduation-Project-of-Community-Manage/blob/master/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20190821204103.png)
- 
+ ![alt](https://github.com/sunshinexyp/Graduation-Project-of-Community-Manage/blob/master/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20190821204207.png)
+![alt](https://github.com/sunshinexyp/Graduation-Project-of-Community-Manage/blob/master/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20190821204130.png)
+![alt](https://github.com/sunshinexyp/Graduation-Project-of-Community-Manage/blob/master/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20190821204241.png)
+![alt](https://github.com/sunshinexyp/Graduation-Project-of-Community-Manage/blob/master/%E5%B0%8FQ%E6%88%AA%E5%9B%BE-20190821204306.png)
